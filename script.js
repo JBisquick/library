@@ -1,3 +1,5 @@
+const libraryContainer = document.querySelector('.library-container');
+
 const myLibrary = [];
 
 function Book(name) {
@@ -5,5 +7,18 @@ function Book(name) {
 }
 
 function addBookToLibrary(book) {
-  myLibrary.push(book.name);
+  myLibrary.push(book);
 }
+
+function showBookCards(library) {
+  for (const book of library) {
+    const bookCard = document.createElement('div');
+    bookCard.classList.add('book-card');
+    libraryContainer.appendChild(bookCard);
+    const bookTitle = document.createElement('div');
+    bookCard.appendChild(bookTitle);
+    bookTitle.textContent = book.name;
+  }
+}
+
+showBookCards(myLibrary);

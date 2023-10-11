@@ -1,0 +1,24 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  }
+
+.container {
+  height: 100vh;
+}
+
+.library-container {
+  border: 1px solid black;
+  width: 70vw;
+  margin: auto;
+  display: grid;
+  gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.book-card {
+  border: 1px solid black;
+  height: 300px;
+}
