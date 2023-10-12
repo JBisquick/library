@@ -16,15 +16,15 @@
   <div class="popup-form">
     <div class="add-container">
       <div class="form-title">Add New Book</div>
-      <form id="form">
-        <input type="text" name="title" placeholder="Title"required>
-        <input type="text" name="author" placeholder="Author" required>
-        <input type="number" name="pages" placeholder="Pages"required>
+      <form id="book-form">
+        <input type="text" id="title" name="title" placeholder="Title" required>
+        <input type="text" id="author" name="author" placeholder="Author" required>
+        <input type="number" id="pages" name="pages" placeholder="Pages" required>
         <div>
           <label for="read">Have you read it?</label>
           <input type="checkbox" id="read" value="read">
         </div> 
-        <button type="submit" >Submit</button>
+        <button type="submit" form="book-form">Submit</button>
       </form>
     </div>
   </div>
