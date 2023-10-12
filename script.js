@@ -1,6 +1,18 @@
 const libraryContainer = document.querySelector('.library-container');
+const formButton = document.querySelector('#pop-button')
+const popupForm = document.querySelector('.popup-form')
 
 const myLibrary = [];
+
+formButton.addEventListener('click',  function () {
+  popupForm.classList.add("show");
+});
+
+window.addEventListener("click", function (event) {
+  if (event.target == popupForm) {
+    popupForm.classList.remove("show");
+  }
+});
 
 function Book(name) {
   this.name = name;
@@ -20,5 +32,3 @@ function showBookCards(library) {
     bookTitle.textContent = book.name;
   }
 }
-
-showBookCards(myLibrary);
