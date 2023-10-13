@@ -24,6 +24,13 @@ function Book(title, author, pages, read) {
   this.author = author;
   this.pages = pages;
   this.read = read;
+  this.changeReadStatus = function() {
+    if (this.read === 'Not Read') {
+      this.read = 'Read'
+    } else {
+      this.read = 'Not Read'
+    }
+  }
 }
 
 function addBookToLibrary(book) {
@@ -42,11 +49,21 @@ function addBookCards() {
     i += 1;
   }
 
-  let allRemoves = document.querySelectorAll('.delete');
-  for (const remove of allRemoves) {
-    remove.addEventListener('click', function(e) {
+  let deleteButtons = document.querySelectorAll('.delete');
+  for (const button of deleteButtons) {
+    button.addEventListener('click', function(e) {
       index = e.target.getAttribute('data-index');
       deleteBook(index);
+    });
+  }
+
+  let readButtons = document.querySelectorAll('.read');
+  for (const button of readButtons) {
+    button.addEventListener('click', function(e) {
+      index = e.target.getAttribute('data-index');
+      bookObject = myLibrary[index];
+      bookObject.changeReadStatus();
+      changeReadButton(bookObject, e.target);
     });
   }
 }
@@ -68,6 +85,11 @@ function createBookCard(book, index) {
   bookCard.appendChild(bookPages);
   bookPages.textContent = book.pages;
 
+  const readButton = document.createElement('button');
+  bookCard.appendChild(readButton);
+  readButton.classList.add('read');
+  changeReadButton(book, readButton);
+
   const deleteButton = document.createElement('button');
   bookCard.appendChild(deleteButton);
   deleteButton.classList.add('delete');
@@ -75,16 +97,22 @@ function createBookCard(book, index) {
 
   bookCard.dataset.index = index;
   deleteButton.dataset.index = index;
+  readButton.dataset.index = index;
 }
 
 function addBook(event) {
   event.preventDefault();
   popupForm.classList.remove('show');
 
-  let title = document.getElementById('title').value;
-  let author =  document.getElementById('author').value;
-  let pages =  document.getElementById('pages').value;
-  let read = document.getElementById('read').value;
+  const title = document.getElementById('title').value;
+  const author =  document.getElementById('author').value;
+  const pages =  document.getElementById('pages').value;
+  const ifRead = document.getElementById('read');
+  if (ifRead.checked === true) {
+    read = 'Read';
+  } else {
+    read =  'Not Read';
+  }
 
   const newBook = new Book(title, author, pages, read); 
   addBookToLibrary(newBook);
@@ -97,4 +125,13 @@ function deleteBook(index) {
 
   myLibrary.splice(index, 1);
   addBookCards();
+}
+
+function changeReadButton(book, button) {
+  button.textContent = book.read;
+  if (book.read === 'Read') {
+    button.style.backgroundColor = 'green';
+  } else {
+    button.style.backgroundColor = 'red';
+  }
 }
