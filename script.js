@@ -6,7 +6,7 @@ const bookForm = document.querySelector('#book-form');
 const myLibrary = [];
 
 bookForm.addEventListener('submit', function (e) {
-  createBookCard(e);
+  addBook(e);
 });
 
 formButton.addEventListener('click',  function () {
@@ -30,27 +30,56 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
-function showBookCards(library) {
-  for (const book of library) {
-    const bookCard = document.createElement('div');
-    bookCard.classList.add('book-card');
-    libraryContainer.appendChild(bookCard);
+function addBookCards() {
+  const allCards = document.querySelectorAll('.book-card');
+  for (const card of allCards) {
+    card.remove();
+  }
 
-    const bookTitle = document.createElement('div');
-    bookCard.appendChild(bookTitle);
-    bookTitle.textContent = book.title;
-    const bookAuthor = document.createElement('div');
-    bookCard.appendChild(bookAuthor);
-    bookAuthor.textContent = book.author;
-    const bookPages = document.createElement('div');
-    bookCard.appendChild(bookPages);
-    bookPages.textContent = book.pages;
+  let i = 0;
+  for (const book of myLibrary) {
+    createBookCard(book, i);
+    i += 1;
+  }
+
+  let allRemoves = document.querySelectorAll('.delete');
+  for (const remove of allRemoves) {
+    remove.addEventListener('click', function(e) {
+      index = e.target.getAttribute('data-index');
+      deleteBook(index);
+    });
   }
 }
 
-function createBookCard(event) {
+function createBookCard(book, index) {
+  const bookCard = document.createElement('div');
+  bookCard.classList.add('book-card');
+  libraryContainer.appendChild(bookCard);
+
+  const bookTitle = document.createElement('div');
+  bookCard.appendChild(bookTitle);
+  bookTitle.textContent = book.title;
+
+  const bookAuthor = document.createElement('div');
+  bookCard.appendChild(bookAuthor);
+  bookAuthor.textContent = book.author;
+
+  const bookPages = document.createElement('div');
+  bookCard.appendChild(bookPages);
+  bookPages.textContent = book.pages;
+
+  const deleteButton = document.createElement('button');
+  bookCard.appendChild(deleteButton);
+  deleteButton.classList.add('delete');
+  deleteButton.textContent = 'Remove';
+
+  bookCard.dataset.index = index;
+  deleteButton.dataset.index = index;
+}
+
+function addBook(event) {
   event.preventDefault();
-  popupForm.classList.remove('show')
+  popupForm.classList.remove('show');
 
   let title = document.getElementById('title').value;
   let author =  document.getElementById('author').value;
@@ -59,5 +88,13 @@ function createBookCard(event) {
 
   const newBook = new Book(title, author, pages, read); 
   addBookToLibrary(newBook);
-  showBookCards(myLibrary);
+  addBookCards();
+}
+
+function deleteBook(index) {
+  bookDOM = document.querySelector(`[data-index="${index}"]`);
+  bookDOM.remove();
+
+  myLibrary.splice(index, 1);
+  addBookCards();
 }
