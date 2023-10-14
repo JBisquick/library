@@ -79,19 +79,21 @@ function createBookCard(book, index) {
 
   const bookAuthor = document.createElement('div');
   bookCard.appendChild(bookAuthor);
-  bookAuthor.textContent = book.author;
+  bookAuthor.textContent = `By: ${book.author}`;
 
   const bookPages = document.createElement('div');
   bookCard.appendChild(bookPages);
-  bookPages.textContent = book.pages;
+  bookPages.textContent = `Pages: ${book.pages}`;
 
+  const buttonDiv = document.createElement('div');
+  buttonDiv.classList.add('div-button');
+  bookCard.appendChild(buttonDiv);
   const readButton = document.createElement('button');
-  bookCard.appendChild(readButton);
+  buttonDiv.appendChild(readButton);
   readButton.classList.add('read');
   changeReadButton(book, readButton);
-
   const deleteButton = document.createElement('button');
-  bookCard.appendChild(deleteButton);
+  buttonDiv.appendChild(deleteButton);
   deleteButton.classList.add('delete');
   deleteButton.textContent = 'Remove';
 
@@ -130,8 +132,8 @@ function deleteBook(index) {
 function changeReadButton(book, button) {
   button.textContent = book.read;
   if (book.read === 'Read') {
-    button.style.backgroundColor = 'green';
+    button.style.backgroundColor = '#a3e635';
   } else {
-    button.style.backgroundColor = 'red';
+    button.style.backgroundColor = '#ef4444';
   }
 }
